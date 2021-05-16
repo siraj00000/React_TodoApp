@@ -1,0 +1,68 @@
+import { useState } from 'react' //hooks
+import './App.css';
+
+function App() {
+  const [someText, setSomeText] = useState('Expertizo')
+  const [inputText, setInputText] = useState('')
+  const [todoText, setTodoText] = useState('')
+  const [todoList, setTodoList] = useState([])
+
+  const updateText = () => {
+    setSomeText('Expertizo University')
+  }
+
+  const updateInputText = (e) => {
+    const text = e.target.value
+    setInputText(text.split('').reverse().join(''))
+  }
+
+  const updateTodoText = (e) => {
+    setTodoText(e.target.value)
+  }
+
+  const addTodoItem = () => {
+    const list = [...todoList] //in order to change the reference
+    list.push(todoText)
+    setTodoList(list)
+  }
+
+  const deleteItem = (index) => {
+    const list = [...todoList] //in order to change the reference
+    list.splice(index, 1)
+    setTodoList(list)
+  }
+  /*
+  States:
+  1) Global variable accessible in the whole component
+  2) When it updates, it rerenders the component in order to render
+  the updated value
+  3) States are directly immutable
+  */
+  return (
+    <div className="App">
+      <header className="">
+        <p>{someText}</p>
+        <button onClick={updateText}>Change the Text</button>
+        <hr />
+
+        <input placeholder="Type something" onChange={updateInputText}/>
+        <p>{inputText}</p>
+
+        <hr />
+        <h1>Todo List</h1>
+        <input placeholder="Type some TODO" onChange={updateTodoText} />
+        <button onClick={addTodoItem}>Add</button>
+        <ol>
+          {todoList.map((item, index) => {
+            return <li>{item} 
+              <button onClick={() => deleteItem(index)}>Delete</button>
+              <button>Edit</button>
+            </li>
+          })}
+        </ol>
+      </header>
+    </div>
+  );
+}
+
+export default App;
